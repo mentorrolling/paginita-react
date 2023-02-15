@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { obtenerClima } from "../helpers/obtener-clima";
 
-const NavBar = () => {
+import "../css/navbar.css";
+
+const NavBar = ({ darkMode, cambiarModoOscuro }) => {
   const [tiempo, setTiempo] = useState(null);
 
   useEffect(() => {
@@ -16,7 +18,11 @@ const NavBar = () => {
 
       obtenerClima(lat, long)
         .then((resultado) => {
-          setTiempo(resultado);
+          const { main, weather } = resultado;
+          setTiempo({
+            temp: main.temp,
+            clima: weather[0],
+          });
         })
         .catch((error) => console.log(error));
     });
@@ -24,7 +30,11 @@ const NavBar = () => {
 
   return (
     <div className="fixed-top">
-      <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
+      <nav
+        className={`navbar navbar-expand-lg ${
+          darkMode ? "bg-dark navbar-dark" : "bg-light navbar-ligth"
+        } `}
+      >
         <div className="container">
           <a className="navbar-brand" href="#">
             <i className="fa fa-ravelry" aria-hidden="true"></i> Kindel
@@ -53,7 +63,34 @@ const NavBar = () => {
                 </a>
               </li>
             </ul>
-            <div>{/* clima  */}</div>
+            {tiempo && (
+              <div className="d-flex gap-2 align-items-center justify-content-center">
+                <img
+                  src={`http://openweathermap.org/img/wn/${tiempo.clima.icon}@2x.png`}
+                  alt="clima"
+                  className="icon-tiempo bg-dark"
+                />
+                <span className={darkMode ? "text-white" : "text-dark"}>
+                  {Math.round(tiempo.temp)}°C
+                </span>
+              </div>
+            )}
+            <div className="d-flex gap-2 align-items-center justify-content-center ms-2 ">
+              {darkMode ? (
+                <i className="fa fa-moon-o text-white" aria-hidden="true"></i>
+              ) : (
+                <i className="fa fa-sun-o" aria-hidden="true"></i>
+              )}
+
+              <div className="form-check form-switch">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  onChange={cambiarModoOscuro}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </nav>

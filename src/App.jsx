@@ -20,7 +20,7 @@ function App() {
       <NavBar cambiarModoOscuro={cambiarModoOscuro} darkMode={darkMode} />
       <CarouselApp />
       <div className="container">
-        <div className="row my-5">
+        <div className="row mt-5 pb-5">
           {detalleCard.map((item, index) => (
             <CardApp key={index} item={item} darkMode={darkMode} />
           ))}

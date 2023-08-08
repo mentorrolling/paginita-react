@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { detalleCard } from "./data/info.js";
 
+import "./App.css";
+
 import CarouselApp from "./components/CarouselApp";
 import NavBar from "./components/NavBar";
 import CardApp from "./components/CardApp.jsx";
